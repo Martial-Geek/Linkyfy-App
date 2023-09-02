@@ -1,38 +1,44 @@
 "use client";
 import Form from "../components/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession, signIn } from "next-auth/react";
+import SignInForm from "@components/SignInForm";
 
 const Home = () => {
-  const handleSignUpInputChange = async (e) => {
+  // const { data: session } = useSession();
+  // useEffect(() => {
+  //   if (session) {
+  //     router.push("/profile");
+  //   }
+  // }, []);
+
+  const handleSignInInputChange = async (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setSignInData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSignUpSubmit = async (e) => {
+  const handleSignInSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/submit-form", {
-        method: "POST",
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-        }),
-      });
 
-      if (response.status === 201) {
-        router.push("/profile");
-      }
-    } catch (error) {
-      console.log(error);
+    const signInResult = await signIn("credentials", {
+      username: signInData.email,
+      password: signInData.password,
+      name: signInData.name,
+      phone: signInData.phone,
+      callbackUrl: "http://localhost:3000/profile",
+    });
+    if (signInResult?.error) {
+      // Handle sign-in error
+      console.log("Sign-in error:", signInResult.error);
     }
   };
 
-  const [formData, setFormData] = useState({
+  const [signInData, setSignInData] = useState({
     name: "",
     email: "",
     phone: "",
+    password: "",
   });
 
   const router = useRouter();
@@ -40,15 +46,20 @@ const Home = () => {
   return (
     <section className="w-full flex-center flex-col">
       <h1 className="head_text text-center">
-        Discover & Share
+        Linkyfy
         <br className="max-md:hidden" />
-        <span className="orange_gradient text-center"> AI-Powered Prompts</span>
+        <span className="orange_gradient text-center">
+          Connect to professionals
+        </span>
       </h1>
       <p className="desc text-center">
-        Promptopia is an open-source AI prompting tool for modern world to
-        discover, create and share creative prompts
+        Linkyfy is a place where you can customize your resume and connect with
+        other professionals
       </p>
-      <Form onChange={handleSignUpInputChange} onSubmit={handleSignUpSubmit} />
+      <SignInForm
+        onChange={handleSignInInputChange}
+        onSubmit={handleSignInSubmit}
+      />
     </section>
   );
 };

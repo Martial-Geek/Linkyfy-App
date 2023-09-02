@@ -1,12 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import DropdownMenu from "./DropdownMenu";
 
-export default function Navbar() {
+export default function Navbar({ handleSectionChange }) {
+  const { data: session } = useSession();
+
   let menuArray = [true, false, false];
   const [menu, setMenu] = useState(menuArray);
   const [show, setShow] = useState(true);
+  const [ImageSet, setImageSet] = useState(null);
+
+  useEffect(() => {
+    const updatePfp = async () => {
+      const response = await fetch(`/api/users/${session?.user.id}/profile`);
+      const data = await response.json();
+      console.log(data);
+
+      if (data) setImageSet(data.pfp);
+    };
+    if (session?.user.id) updatePfp();
+  }, []);
 
   const setMenuValue = (props) => {
     let newArr = [...menu];
@@ -16,58 +32,37 @@ export default function Navbar() {
 
   return (
     <section>
-      <div className="flex">
-        <div className="h-screen w-64 bg-white">Hi</div>
-        <div className="h-screen w-full bg-slate-200">
-          {/* NAV */}
-          <div className="flex flex-end border-b border-gray-300">
-            <div className="flex my-6 mx-6">
-              <div className="flex">
-                <Image
-                  src="/bell-solid.svg"
-                  width={30}
-                  height={30}
-                  alt="Icon"
-                ></Image>
-              </div>
-              <div className="flex border border-black border-1 mx-4">
-                <Image
-                  src="/icons8-user-48.png"
-                  width={36}
-                  height={36}
-                  alt="Icon"
-                ></Image>
-                <div className="flex flex-col">
-                  <h3 className="px-6">Welcome Back!</h3>
-                  <p className="px-6">Vishnu Swarup!</p>
-                </div>
-              </div>
-            </div>
+      {/* NAV */}
+      <div className="flex justify-between md:justify-end border-b border-gray-200">
+        {/* left icons small devices*/}
+        <div className="flex md:hidden ml-6 mt-5 mb-5">
+          <div className="self-center justify-items-center mr-5">
+            <DropdownMenu handleSectionChange={handleSectionChange} />
+          </div>
+          <Image src="/bell-solid.svg" width={30} height={30} alt="Icon" />
+        </div>
+
+        {/* All devices right icons  */}
+        <div className="flex my-6 mx-6">
+          {/* Icon */}
+
+          <div className="flex">
+            <Image src="/bell-solid.svg" width={25} height={25} alt="Icon" />
           </div>
 
-          <div className="parent relative w-11/12">
-            <div className="flex flex-start w-full bg-sky-600 rounded-md mt-2 h-48">
-              <p className="text-white">MY PROFILE</p>
-            </div>
-            <div className="absolute bg-white top-2/4 left-1/2 transform -translate-x-1/2 w-10/12 rounded-md h-96 flex">
-              <div className="w-1/2">
-                <div className="flex justify-between">
-                  <Image
-                    src="/icons8-user-48.png"
-                    width={120}
-                    height={120}
-                    alt="Icon"
-                    className="mx-4 my-4 "
-                  ></Image>
-                  <button
-                    className="
-                  bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 my-4 px-4 rounded-lg shadow-md"
-                  >
-                    Upload Photo
-                  </button>
-                </div>
-              </div>
-              <div className="w-1/2">Hi</div>
+          <div className="flex md:border border-slate-100 border-1 shadow-inner shadow-slate-200 hover:shadow-slate-400 mx-4 px-3 items-start justify-between rounded-lg">
+            {/* Image  */}
+
+            <img
+              src={session?.user ? ImageSet : "/icons8-user-48.png"}
+              width={30}
+              height={30}
+              alt="Icon"
+              className="rounded-full md:rounded-lg self-center"
+            />
+            <div className="flex-col px-6 py-1 hidden md:flex font-serif font-semibold text-slate-700">
+              <h3>Welcome Back!</h3>
+              <p>{session?.user.name}</p>
             </div>
           </div>
         </div>
