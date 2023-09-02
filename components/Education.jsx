@@ -1,9 +1,12 @@
 import React from "react";
 
-const Education = ({ education }) => {
+const Education = ({ education, index }) => {
   if (education) {
     return (
-      <div className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 w-9/12 rounded-3xl ml-10 my-3 px-6 py-3">
+      <div
+        key={index}
+        className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 w-9/12 rounded-3xl ml-10 my-3 px-6 py-3"
+      >
         <span className="font-satoshi font-semibold text-xl ml-2">
           Education
         </span>
@@ -24,6 +27,8 @@ const Education = ({ education }) => {
         </p>
       </div>
     );
+  } else {
+    return <></>;
   }
 };
 

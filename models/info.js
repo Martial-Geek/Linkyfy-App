@@ -5,12 +5,11 @@ const InfoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Detail",
   },
-  skills: {
-    type: [String],
-    required: [true, "Yessss!"],
-  },
   about: {
     type: String,
+  },
+  skills: {
+    type: [String],
   },
   education: {
     collegeName: String,

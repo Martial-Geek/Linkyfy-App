@@ -10,9 +10,13 @@ export const GET = async (request, { params }) => {
     const response = {
       aboutMeExists: !!info?.about?.trim(),
       skillsExist: Array.isArray(info?.skills) && info.skills.length > 0,
-      educationExists:
-        typeof info?.education === "object" &&
-        Object.keys(info?.education).length > 0,
+      educationExists: !!(
+        info?.education?.collegeName ||
+        info?.education?.startingYear ||
+        info?.education?.endingYear ||
+        info?.education?.courseName ||
+        info?.education?.description
+      ),
       experienceExists:
         Array.isArray(info?.experiences) && info.experiences.length > 0,
       certificationExists:

@@ -9,8 +9,11 @@ const Certifications = ({ certifications }) => {
           Certifications
         </span>
 
-        {certifications.map((certification) => (
-          <div className="flex justify-around border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6  text-center">
+        {certifications.map((certification, index) => (
+          <div
+            key={index}
+            className="flex justify-around border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6  text-center"
+          >
             <img
               src="/certificate-solid.svg"
               width={40}
@@ -29,6 +32,8 @@ const Certifications = ({ certifications }) => {
         ))}
       </div>
     );
+  } else {
+    return <></>;
   }
 };
 

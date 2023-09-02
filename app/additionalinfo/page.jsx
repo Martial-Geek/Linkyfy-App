@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const page = () => {
   const [loading, setLoading] = useState(true); // Loading state
-  const [activeForm, setActiveForm] = useState(null);
+  const [activeForm, setActiveForm] = useState(0);
   const [dataExists, setDataExists] = useState({
     about: false,
     skills: false,
@@ -23,40 +23,40 @@ const page = () => {
     certifications: false,
   });
   const [allExist, setAllExist] = useState(false);
-  const { about, skills, education, experience } = dataExists;
-  const router = useRouter();
   const { data: session } = useSession();
   const id = session?.user.id;
 
+  console.log(dataExists);
+
   const doAllExist = () => {
-    console.log(dataExists);
     const areAllFieldsTrue = Object.values(dataExists).every(
       (value) => value === true
     );
     if (areAllFieldsTrue) {
       setAllExist(true);
 
-      //POST-REQ
-      const setAllTrue = async () => {
+      //POST-REQ to set true
+      const setTrueFalse = async () => {
         try {
           const response = await fetch(`/api/details/exist/${id}/new`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(true), // Convert experiences array to JSON
+            body: JSON.stringify(areAllFieldsTrue), // Convert experiences array to JSON
           });
 
           if (response.ok) {
-            console.log("Truth added successfully!");
+            console.log("Truth/False added successfully!");
           } else {
-            console.error("Error adding truth");
+            console.error("Error adding truth/false");
           }
         } catch (error) {
           console.error("Error:", error);
         }
       };
-      setAllTrue();
+
+      setTrueFalse();
     }
   };
 
@@ -79,6 +79,7 @@ const page = () => {
               experienceExists,
               certificationExists,
             } = await response.json();
+            console.log(educationExists);
             setDataExists((prevState) => ({
               ...prevState,
               about: aboutMeExists,
@@ -92,7 +93,6 @@ const page = () => {
           console.error("An error occurred:", error);
         } finally {
           setLoading(false); // Set loading to false after fetching is done
-          doAllExist();
         }
       }
     };
@@ -116,9 +116,9 @@ const page = () => {
       setLoading(false);
       setTimeout(() => {
         window.location.reload();
-        setActiveForm((prev) => prev + 1);
-      }, 1000);
-    }, 1000);
+        setTimeout(() => setActiveForm((prev) => prev + 1), 500);
+      }, 500);
+    }, 500);
   };
 
   if (loading) {

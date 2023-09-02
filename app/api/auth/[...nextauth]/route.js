@@ -10,7 +10,9 @@ const handler = NextAuth({
       authorize: async (credentials) => {
         await connectToDB(); // Connect to your MongoDB
 
-        const user = await Detail.findOne({ email: credentials.username });
+        const user = await Detail.findOne({
+          email: credentials.username,
+        }).exec();
 
         if (user) {
           if (user.password === credentials.password) {
@@ -39,6 +41,13 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  jwt: {
+    signingKey: { kty: "oct", kid: "--", alg: "HS256", k: "--" },
+    verificationOptions: {
+      algorithms: ["HS256"],
+    },
+    secret: process.env.JWT_SECRET,
+  },
   pages: {
     signIn: "/",
     error: "/auth/error",

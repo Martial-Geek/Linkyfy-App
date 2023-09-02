@@ -10,7 +10,7 @@ export const POST = async (request, { params }) => {
       const { aboutMe } = await request.json();
       try {
         await connectToDB();
-        const newInfo = { creator: userId, about: aboutMe };
+        const newAboutInfo = { creator: userId, about: aboutMe };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -20,18 +20,21 @@ export const POST = async (request, { params }) => {
             { $set: { about: aboutMe } }
           );
         } else {
-          await Info.create({ creator: userId, about: aboutMe });
+          await Info.create(newAboutInfo);
+          return new Response(newAboutInfo, { status: 201 });
         }
 
         return new Response("About me added successfully", { status: 201 });
       } catch (error) {
         return new Response("Failed to add about section", { status: 500 });
       }
+      break;
 
     case "skills":
       const { skillsUser } = await request.json();
       try {
         await connectToDB();
+        const newSkillInfo = { creator: userId, skills: skillsUser };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -41,7 +44,8 @@ export const POST = async (request, { params }) => {
             { $set: { skills: skillsUser } }
           );
         } else {
-          await Info.create({ creator: userId, skills: skillsUser });
+          await Info.create(newSkillInfo);
+          return new Response(newSkillInfo, { status: 201 });
         }
 
         return new Response("Skills added successfully", { status: 201 });
@@ -49,12 +53,13 @@ export const POST = async (request, { params }) => {
         console.log(error);
         return new Response("Failed to add skills", { status: 500 });
       }
+      break;
 
     case "education":
       const educationUser = await request.json();
       try {
         await connectToDB();
-        const newInfo = { creator: userId, education: educationUser };
+        const newEduInfo = { creator: userId, education: educationUser };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -64,19 +69,21 @@ export const POST = async (request, { params }) => {
             { $set: { education: educationUser } }
           );
         } else {
-          await Info.create({ newInfo });
+          await Info.create(newEduInfo);
+          return new Response(newEduInfo, { status: 201 });
         }
 
         return new Response("Education added successfully", { status: 201 });
       } catch (error) {
         return new Response("Failed to add education section", { status: 500 });
       }
+      break;
 
     case "experiences":
       const experiences = await request.json();
       try {
         await connectToDB();
-        const newInfo = { creator: userId, experiences: experiences };
+        const newExpInfo = { creator: userId, experiences: experiences };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -86,7 +93,8 @@ export const POST = async (request, { params }) => {
             { $set: { experiences: experiences } }
           );
         } else {
-          await Info.create(newInfo);
+          await Info.create(newExpInfo);
+          return new Response(newExpInfo, { status: 201 });
         }
 
         return new Response("Experiences added successfully", { status: 201 });
@@ -95,12 +103,13 @@ export const POST = async (request, { params }) => {
           status: 500,
         });
       }
+      break;
 
     case "certifications":
       const certifications = await request.json();
       try {
         await connectToDB();
-        const newInfo = { creator: userId, certifications: certifications };
+        const newCertInfo = { creator: userId, certifications: certifications };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -110,7 +119,8 @@ export const POST = async (request, { params }) => {
             { $set: { certifications: certifications } }
           );
         } else {
-          await Info.create(newInfo);
+          await Info.create(newCertInfo);
+          return new Response(newCertInfo, { status: 201 });
         }
 
         return new Response("Certifications added successfully", {
@@ -121,13 +131,14 @@ export const POST = async (request, { params }) => {
           status: 500,
         });
       }
+      break;
 
     case "exist":
       const isExist = await request.json();
 
       try {
         await connectToDB();
-        const newInfo = { creator: userId, exist: isExist };
+        const newExistInfo = { creator: userId, exist: isExist };
 
         const isPresent = await Info.findOne({ creator: userId }).exec();
 
@@ -137,7 +148,8 @@ export const POST = async (request, { params }) => {
             { $set: { exist: isExist } }
           );
         } else {
-          await Info.create(newInfo);
+          await Info.create(newExistInfo);
+          return new Response(newExistInfo, { status: 201 });
         }
 
         return new Response("Truth added successfully", {
@@ -148,6 +160,7 @@ export const POST = async (request, { params }) => {
           status: 500,
         });
       }
+      break;
 
     default:
       console.log("Unknown Param");

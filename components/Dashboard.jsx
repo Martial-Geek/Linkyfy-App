@@ -51,39 +51,54 @@ const Dashboard = () => {
       </div>
     );
   }
-  return (
-    <div className="parent relative mx-3 my-3 md:w-11/12 md:mx-0 md:my-0">
-      <div className="flex flex-start w-full bg-indigo-900 rounded-lg mt-6 ml-3 h-56">
-        <p className="text-white rounded-xl px-6 py-6">MY PROFILE</p>
+  if (userInformation) {
+    return (
+      <div className="parent relative mx-3 my-3 md:w-11/12 md:mx-0 md:my-0">
+        <div className="flex flex-start w-full bg-indigo-900 rounded-lg mt-6 ml-3 h-56">
+          <p className="text-white rounded-xl px-6 py-6">MY PROFILE</p>
+        </div>
+        <div className="absolute bg-white top-32 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md  flex">
+          {/* left half */}
+          <div className="hidden md:flex flex-col w-1/2">
+            <ProfilePic />
+            <PersonalInfo />
+            <About about={userInformation.about} />
+            <Skills skills={userInformation.skills} />
+          </div>
+          {/* right half */}
+          <div className="hidden md:flex flex-col w-1/2">
+            <ProfessionalDetails />
+            <Certifications certifications={userInformation.certifications} />
+            <Experience experiences={userInformation.experiences} />
+            <Education education={userInformation.education} />
+          </div>
+          <div className="md:hidden flex flex-col ">
+            <ProfilePic />
+            <PersonalInfo />
+            <About about={userInformation.about} />
+            <Skills skills={userInformation.skills} />
+            <ProfessionalDetails />
+            <Certifications certifications={userInformation.certifications} />
+            <Experience experiences={userInformation.experiences} />
+            <Education education={userInformation.education} />
+          </div>
+        </div>
       </div>
-      <div className="absolute bg-white top-32 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md  flex">
-        {/* left half */}
+    );
+  } else {
+    return (
+      <div>
         <div className="hidden md:flex flex-col w-1/2">
           <ProfilePic />
           <PersonalInfo />
-          <About about={userInformation.about} />
-          <Skills skills={userInformation.skills} />
-        </div>
-        {/* right half */}
-        <div className="hidden md:flex flex-col w-1/2">
-          <ProfessionalDetails />
-          <Certifications certifications={userInformation.certifications} />
-          <Experience experiences={userInformation.experiences} />
-          <Education education={userInformation.education} />
         </div>
         <div className="md:hidden flex flex-col ">
           <ProfilePic />
           <PersonalInfo />
-          <About about={userInformation.about} />
-          <Skills skills={userInformation.skills} />
-          <ProfessionalDetails />
-          <Certifications certifications={userInformation.certifications} />
-          <Experience experiences={userInformation.experiences} />
-          <Education education={userInformation.education} />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Dashboard;

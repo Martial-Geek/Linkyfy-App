@@ -7,8 +7,11 @@ const Experience = ({ experiences }) => {
         <span className="font-satoshi font-semibold text-xl ml-4">
           Experience
         </span>
-        {experiences.map((experience) => (
-          <div className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6 py-3">
+        {experiences.map((experience, index) => (
+          <div
+            key={index}
+            className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6 py-3"
+          >
             <div className="flex">
               <span className="font-satoshi text-xl">
                 {experience.duration} months
@@ -34,6 +37,8 @@ const Experience = ({ experiences }) => {
         <p className="desc ml-5"></p>
       </div>
     );
+  } else {
+    return <></>;
   }
 };
 

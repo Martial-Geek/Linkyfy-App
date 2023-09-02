@@ -12,19 +12,20 @@ const AboutForm = ({ afterSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(aboutMe);
       const response = await fetch(`/api/details/about/${id}/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ aboutMe, userId: session?.user.id }),
+        body: JSON.stringify({ aboutMe: aboutMe, userId: session?.user.id }),
       });
 
       if (response.ok) {
-        console.log("POST request successful");
+        console.log("About POST request successful");
         afterSubmit();
       } else {
-        console.error("POST request failed");
+        console.error("About POST request failed");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -52,7 +53,10 @@ const AboutForm = ({ afterSubmit }) => {
           }}
         />
       </div>
-      <button className="px-5 py-1.5 mx-5 my-5 text-sm bg-primary-orange rounded-full text-white">
+      <button
+        type="submit"
+        className="px-5 py-1.5 mx-5 my-5 text-sm bg-primary-orange rounded-full text-white"
+      >
         Submit and Continue
       </button>
     </form>
