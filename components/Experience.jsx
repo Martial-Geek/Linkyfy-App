@@ -1,7 +1,7 @@
 import React from "react";
 
 const Experience = ({ experiences }) => {
-  if (experiences) {
+  if (experiences.length != 0) {
     return (
       <div className="flex flex-col  w-10/12 rounded-3xl ml-6 my-5">
         <span className="font-satoshi font-semibold text-xl ml-4">

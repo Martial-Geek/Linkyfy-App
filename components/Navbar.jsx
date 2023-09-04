@@ -17,7 +17,6 @@ export default function Navbar({ handleSectionChange }) {
     const updatePfp = async () => {
       const response = await fetch(`/api/users/${session?.user.id}/profile`);
       const data = await response.json();
-      console.log(data);
 
       if (data) setImageSet(data.pfp);
     };

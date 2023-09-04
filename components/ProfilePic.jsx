@@ -15,7 +15,6 @@ const ProfilePic = () => {
     const fetchPosts = async () => {
       const response = await fetch(`/api/users/${session?.user.id}/profile`);
       const data = await response.json();
-      console.log(data);
 
       if (data) setImageURL(data.pfp);
     };

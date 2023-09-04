@@ -1,8 +1,7 @@
 import React from "react";
 
 const Certifications = ({ certifications }) => {
-  if (certifications) {
-    console.log(certifications);
+  if (certifications.length != 0) {
     return (
       <div className="flex flex-col ml-6 w-10/12 my-3">
         <span className="font-satoshi font-semibold text-xl ml-6">

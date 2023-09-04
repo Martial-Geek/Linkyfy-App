@@ -23,6 +23,12 @@ const DetailSchema = new Schema({
       "Password invalid, it should contain 8-16 characters, with at least 1 digit, 1 uppercase letter, and 1 special symbol.",
     ],
   },
+  connections: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Detail", // Reference to other Detail documents
+    },
+  ],
 });
 
 const Detail = models.Detail || model("Detail", DetailSchema);

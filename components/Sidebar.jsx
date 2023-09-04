@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
-const Sidebar = ({ handleSectionChange, activeSection, openModal }) => {
+const Sidebar = ({ handleSectionChange, activeSection }) => {
   const [hideButton, setHideButton] = useState(false);
   const { data: session } = useSession();
   const id = session?.user.id;
@@ -68,14 +68,11 @@ const Sidebar = ({ handleSectionChange, activeSection, openModal }) => {
           </button>
         )}
 
-        {session && (
-          <button
-            className="w-auto4 px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white mb-2"
-            onClick={openModal}
-          >
+        {/* {session && (
+          <button className="w-auto4 px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white mb-2">
             Provide Additional Details
           </button>
-        )}
+        )} */}
 
         {session && !hideButton && (
           <Link

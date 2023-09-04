@@ -2,7 +2,7 @@
 import React from "react";
 import Nav from "@components/Navbar";
 import Link from "next/link";
-import AdditionalDetailsModal from "@components/AdditionalDetailsModal";
+// import AdditionalDetailsModal from "@components/AdditionalDetailsModal";
 import Dashboard from "@components/Dashboard";
 import Connections from "@components/Connections";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ import Sidebar from "@components/Sidebar";
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const id = session?.user.id;
 
   useEffect(() => {
     if (!session) {
@@ -20,32 +21,37 @@ const Profile = () => {
     }
   }, []);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("dashboard");
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState(() => {
+    return localStorage.getItem("activeSection") || "dashboard";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("activeSection", activeSection);
+  }, [activeSection]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  // };
 
   return (
     <div>
       {session ? <div></div> : <></>}
-      <AdditionalDetailsModal isOpen={isModalOpen} onClose={closeModal} />
+      {/* <AdditionalDetailsModal isOpen={isModalOpen} onClose={closeModal} /> */}
 
       <div className="flex">
         <div className="hidden md:flex">
           <Sidebar
             handleSectionChange={handleSectionChange}
             activeSection={activeSection}
-            openModal={openModal}
           />
         </div>
 
