@@ -8,6 +8,7 @@ const ProfileSchema = new Schema({
   pfp: {
     type: String,
     required: [true, "Prompt is required."],
+    default: "/icons8-user-48.png",
   },
 });
 

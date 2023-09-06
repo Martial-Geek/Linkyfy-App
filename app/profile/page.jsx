@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Nav from "@components/Navbar";
-import Link from "next/link";
-// import AdditionalDetailsModal from "@components/AdditionalDetailsModal";
 import Dashboard from "@components/Dashboard";
 import Connections from "@components/Connections";
 import { useRouter } from "next/navigation";
@@ -11,19 +9,21 @@ import { useEffect, useState } from "react";
 import Sidebar from "@components/Sidebar";
 
 const Profile = () => {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
   const id = session?.user.id;
 
   useEffect(() => {
+    setIsClient(true);
     if (!session) {
       router.push("/");
     }
   }, []);
 
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(() => {
-    return localStorage.getItem("activeSection") || "dashboard";
+    if (isClient) return localStorage.getItem("activeSection") || "dashboard";
+    else return "dashboard";
   });
 
   useEffect(() => {
@@ -34,19 +34,8 @@ const Profile = () => {
     setActiveSection(section);
   };
 
-  // const openModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  // };
-
   return (
     <div>
-      {session ? <div></div> : <></>}
-      {/* <AdditionalDetailsModal isOpen={isModalOpen} onClose={closeModal} /> */}
-
       <div className="flex">
         <div className="hidden md:flex">
           <Sidebar

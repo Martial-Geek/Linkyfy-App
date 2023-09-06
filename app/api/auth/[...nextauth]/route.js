@@ -22,32 +22,23 @@ const handler = NextAuth({
             throw new Error("Incorrect Password!");
           }
         } else {
-          // User doesn't exist, sign the user up
-          try {
-            const newUser = {
-              name: credentials.name,
-              email: credentials.username,
-              phone: credentials.phone,
-              password: credentials.password,
-            };
-            const createdUser = await Detail.create(newUser);
-            return createdUser;
-          } catch (error) {
-            console.log(error, "Failed to add user to database");
-            Promise.reject("User could not be registered");
-          }
+          throw new Error("No User Found!");
         }
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  jwt: {
-    signingKey: { kty: "oct", kid: "--", alg: "HS256", k: "--" },
-    verificationOptions: {
-      algorithms: ["HS256"],
-    },
-    secret: process.env.JWT_SECRET,
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
+  // jwt: {
+  //   signingKey: { kty: "oct", kid: "--", alg: "HS256", k: "--" },
+  //   verificationOptions: {
+  //     algorithms: ["HS256"],
+  //   },
+  //   secret: process.env.JWT_SECRET,
+  // },
   pages: {
     signIn: "/",
     error: "/auth/error",
@@ -59,9 +50,10 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session }) {
+    async session({ session, token }) {
       // store the user id from MongoDB to session
       const sessionUser = await Detail.findOne({ email: session.user.email });
+      session.accessToken = token.accessToken;
       session.user.id = sessionUser._id.toString();
       session.user.phone = sessionUser.phone;
 
