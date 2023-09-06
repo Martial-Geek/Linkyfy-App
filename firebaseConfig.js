@@ -4,13 +4,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID,
+  apiKey: "AIzaSyAI87O7WIX_JxW9HzIcnu8e7UzoufKP_Z8",
+  authDomain: "oruphones-90c0b.firebaseapp.com",
+  projectId: "oruphones-90c0b",
+  storageBucket: "oruphones-90c0b.appspot.com",
+  messagingSenderId: "729075401577",
+  appId: "1:729075401577:web:b71d0148259256106a73f8",
+  measurementId: "G-0RDS2XK43J",
 };
 
 const app = initializeApp(firebaseConfig);
