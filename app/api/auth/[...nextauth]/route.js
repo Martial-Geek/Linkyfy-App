@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Detail from "@models/details";
 import { connectToDB } from "@utils/database.js";
+import bcrypt from "bcrypt";
 
 const handler = NextAuth({
   providers: [
@@ -15,7 +16,11 @@ const handler = NextAuth({
         }).exec();
 
         if (user) {
-          if (user.password === credentials.password) {
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+          if (passwordMatch) {
             // Sign the user in
             return Promise.resolve(user);
           } else {
@@ -32,13 +37,6 @@ const handler = NextAuth({
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-  // jwt: {
-  //   signingKey: { kty: "oct", kid: "--", alg: "HS256", k: "--" },
-  //   verificationOptions: {
-  //     algorithms: ["HS256"],
-  //   },
-  //   secret: process.env.JWT_SECRET,
-  // },
   pages: {
     signIn: "/",
     error: "/auth/error",

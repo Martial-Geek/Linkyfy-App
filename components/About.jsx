@@ -12,7 +12,16 @@ const About = ({ about }) => {
     setEditedAboutContent(e.target.value);
   };
 
+  const handleCancel = async () => {
+    setIsEditing(false);
+  };
+
   const handleSave = async () => {
+    if (editedAboutContent.trim() === "") {
+      alert("About cannot be empty!");
+      console.error("About content cannot be empty.");
+      return;
+    }
     try {
       const response = await fetch(`/api/details/about/${id}/update`, {
         method: "POST",
@@ -51,18 +60,27 @@ const About = ({ about }) => {
         ) : (
           <div className="flex flex-col">
             <textarea
+              required
               value={editedAboutContent}
               cols="30"
               rows="10"
               className="border border-slate-200"
               onChange={handleAboutChange}
             />
-            <button
-              className="px-5 py-1.5 mx-5 my-4 max-w-fit text-sm bg-sky-500 rounded-full text-white"
-              onClick={handleSave}
-            >
-              Save
-            </button>
+            <div className="flex justify-between">
+              <button
+                className="px-5 py-1.5 mx-5 my-4 max-w-fit text-sm bg-sky-500 rounded-full text-white"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+              <button
+                className="px-5 py-1.5 mx-5 my-4 max-w-fit text-sm bg-sky-500 rounded-full text-white"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         )}
       </div>

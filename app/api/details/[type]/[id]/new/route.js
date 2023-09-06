@@ -135,6 +135,7 @@ export const POST = async (request, { params }) => {
 
     case "exist":
       const isExist = await request.json();
+      console.log(isExist);
 
       try {
         await connectToDB();

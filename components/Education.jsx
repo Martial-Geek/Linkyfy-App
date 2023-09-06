@@ -18,6 +18,19 @@ const Education = ({ education, index }) => {
   };
 
   const handleSaveClick = async () => {
+    if (
+      !collegeNameRef.current.value ||
+      !startingYearRef.current.value ||
+      !endingYearRef.current.value ||
+      !courseNameRef.current.value ||
+      !descriptionRef.current.value
+    ) {
+      // Display an error message or prevent saving if any field is empty.
+      alert("Field cannot be empty!");
+      console.error("All fields must be filled in.");
+      return;
+    }
+
     // Update the education object with the edited values
     const updatedEducation = {
       collegeName: collegeNameRef.current.value,
@@ -72,19 +85,22 @@ const Education = ({ education, index }) => {
         {isEditing ? (
           <div className="flex flex-col">
             <input
+              required
               className="border border-slate-200"
               type="text"
               ref={collegeNameRef}
               defaultValue={editedEducation.collegeName}
             />
-            <div className="flex justify-between my-3">
+            <div className="flex flex-col sm:flex-row justify-between my-3 space-y-3">
               <input
+                required
                 className="border border-slate-200"
                 type="text"
                 ref={startingYearRef}
                 defaultValue={editedEducation.startingYear}
               />
               <input
+                required
                 className="border border-slate-200"
                 type="text"
                 ref={endingYearRef}
@@ -92,12 +108,14 @@ const Education = ({ education, index }) => {
               />
             </div>
             <input
+              required
               className="border border-slate-200"
               type="text"
               ref={courseNameRef}
               defaultValue={editedEducation.courseName}
             />
             <input
+              required
               type="text"
               className="my-3 border border-slate-200"
               ref={descriptionRef}

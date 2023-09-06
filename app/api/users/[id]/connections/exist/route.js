@@ -28,17 +28,17 @@ export const GET = async (request, { params }) => {
 
           user.name = LoginData.name;
 
-          const profileData = await Profile.findOne({
+          const profileData = (await Profile.findOne({
             creator: { $in: userId },
           })
             .select("pfp")
-            .exec();
+            .exec()) || { pfp: "" };
 
           user.pfp = profileData.pfp;
 
-          const jobData = await Info.findOne({
+          const jobData = (await Info.findOne({
             creator: { $in: userId },
-          }).exec();
+          }).exec()) || { experiences: [{ jobType: "", companyName: "" }] };
 
           user.jobType = jobData.experiences[0].jobType;
           user.companyName = jobData.experiences[0].companyName;

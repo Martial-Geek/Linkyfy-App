@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import DropdownMenu from "./DropdownMenu";
 
 export default function Navbar({ handleSectionChange }) {
@@ -23,6 +24,8 @@ export default function Navbar({ handleSectionChange }) {
     if (session?.user.id) updatePfp();
   }, []);
 
+  const router = useRouter();
+
   const setMenuValue = (props) => {
     let newArr = [...menu];
     newArr[props] = !newArr[props];
@@ -34,11 +37,19 @@ export default function Navbar({ handleSectionChange }) {
       {/* NAV */}
       <div className="flex justify-between md:justify-end border-b border-gray-200">
         {/* left icons small devices*/}
-        <div className="flex md:hidden ml-6 mt-5 mb-5">
-          <div className="self-center justify-items-center mr-5">
+        <div className="flex md:hidden ml-6 mt-5 mb-5 items-center">
+          <div className="self-center justify-items-center">
             <DropdownMenu handleSectionChange={handleSectionChange} />
           </div>
-          <Image src="/bell-solid.svg" width={30} height={30} alt="Icon" />
+          <div className="flex px-1">
+            <Image
+              src="/logo.png"
+              width={100}
+              height={10}
+              alt="Icon"
+              className="rounded-lg w-24 h-10 mx-auto"
+            />
+          </div>
         </div>
 
         {/* All devices right icons  */}
@@ -49,15 +60,13 @@ export default function Navbar({ handleSectionChange }) {
             <Image src="/bell-solid.svg" width={25} height={25} alt="Icon" />
           </div>
 
-          <div className="flex md:border border-slate-100 border-1 shadow-inner shadow-slate-200 hover:shadow-slate-400 mx-4 px-3 items-start justify-between rounded-lg">
+          <div className="flex sm:border border-slate-100 border-1 sm:shadow-inner shadow-slate-200 hover:shadow-slate-300 mx-4 px-3 items-start justify-between sm:rounded-lg">
             {/* Image  */}
 
             <img
               src={session?.user ? ImageSet : "/icons8-user-48.png"}
-              width={30}
-              height={30}
               alt="Icon"
-              className="rounded-full md:rounded-lg self-center"
+              className="rounded-full md:rounded-lg self-center h-10 w-10"
             />
             <div className="flex-col px-6 py-1 hidden md:flex font-serif font-semibold text-slate-700">
               <h3>Welcome Back!</h3>

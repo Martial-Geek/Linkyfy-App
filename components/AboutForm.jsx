@@ -35,7 +35,7 @@ const AboutForm = ({ afterSubmit }) => {
 
   return (
     <form
-      className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism mx-auto"
+      className="mt-10 sm:w-full sm:max-w-2xl flex flex-col gap-7 glassmorphism mx-auto"
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col">

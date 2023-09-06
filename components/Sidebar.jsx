@@ -68,12 +68,6 @@ const Sidebar = ({ handleSectionChange, activeSection }) => {
           </button>
         )}
 
-        {/* {session && (
-          <button className="w-auto4 px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white mb-2">
-            Provide Additional Details
-          </button>
-        )} */}
-
         {session && !hideButton && (
           <Link
             className="w-auto px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white mb-2"

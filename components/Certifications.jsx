@@ -24,7 +24,18 @@ const Certifications = ({ certifications }) => {
       })
     );
 
-    console.log(updatedCertificationsArray);
+    const areFieldsEmpty = updatedCertificationsArray.some(
+      (certification, index) => {
+        return !certification.skillName || !certification.platform;
+      }
+    );
+
+    if (areFieldsEmpty) {
+      // Display an error message or prevent saving if any field is empty.
+      alert("Field can't be empty");
+      console.error("All fields must be filled in.");
+      return;
+    }
 
     try {
       const response = await fetch(`/api/details/certifications/${id}/update`, {
@@ -72,7 +83,7 @@ const Certifications = ({ certifications }) => {
           {certifications.map((certification, index) =>
             !isEditing ? (
               <div
-                className="flex justify-around border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6  text-center"
+                className="flex sm:justify-start border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6  text-center"
                 key={index}
               >
                 <img
@@ -81,11 +92,11 @@ const Certifications = ({ certifications }) => {
                   height={40}
                   alt="boom"
                 />
-                <div className="flex flex-col">
-                  <span className="font-satoshi font-semibold text-xl mx-4 my-4">
+                <div className="flex flex-col mx-auto">
+                  <span className="font-satoshi font-semibold text-lg mx-4 my-4">
                     {certification.skillName}
                   </span>
-                  <span className="font-satoshi text-lg text-slate-600  mx-4 my-3">
+                  <span className="font-satoshi text-md text-slate-600  mx-4 my-3">
                     {certification.platform}
                   </span>
                 </div>
@@ -103,12 +114,14 @@ const Certifications = ({ certifications }) => {
                 />
                 <div className="flex flex-col">
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={skillNameRefs.current[index]}
                     defaultValue={editedCertifications[index].skillName}
                   />
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={platformRefs.current[index]}

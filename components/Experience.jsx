@@ -29,7 +29,23 @@ const Experience = ({ experiences }) => {
       jobStatus: jobStatusRefs.current[index].current.value,
     }));
 
-    console.log(updatedExperiencesArray);
+    const areFieldsEmpty = updatedExperiencesArray.some((experience, index) => {
+      return (
+        !experience.duration ||
+        !experience.startingYear ||
+        !experience.endingYear ||
+        !experience.companyName ||
+        !experience.jobType ||
+        !experience.jobStatus
+      );
+    });
+
+    if (areFieldsEmpty) {
+      // Display an error message or prevent saving if any field is empty.
+      alert("Field can't be empty!");
+      console.error("All fields must be filled in.");
+      return;
+    }
 
     try {
       const response = await fetch(`/api/details/experiences/${id}/update`, {
@@ -79,21 +95,21 @@ const Experience = ({ experiences }) => {
                 className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6 py-3"
               >
                 <div className="flex">
-                  <span className="font-satoshi text-xl">
+                  <span className="font-satoshi text-lg">
                     {experience.duration} months
                   </span>
-                  <span className="font-satoshi font-semibold text-lg ml-4">
+                  <span className="font-satoshi font-semibold text-sm sm:ml-4 ml-3">
                     ({experience.startingYear}-{experience.endingYear})
                   </span>
-                  <span className="font-satoshi text-lg ml-auto">
+                  <span className="font-satoshi text-md ml-auto">
                     {experience.jobStatus}
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-400">
-                  <span className="font-satoshi text-lg">
+                  <span className="font-satoshi text-md">
                     {experience.companyName}
                   </span>
-                  <span className="font-satoshi text-lg ml-4">
+                  <span className="font-satoshi text-md ml-4">
                     {experience.jobType}
                   </span>
                 </div>
@@ -103,40 +119,46 @@ const Experience = ({ experiences }) => {
                 key={index}
                 className="flex flex-col border border-1 border-slate-300 shadow-inner shadow-slate-200 rounded-3xl mx-6 my-3 px-6 py-3"
               >
-                <div className="flex">
+                <div className="flex flex-col sm:flex-row">
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={durationRefs.current[index]}
                     defaultValue={editedExperiences[index].duration}
                   />
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={startingYearRefs.current[index]}
                     defaultValue={editedExperiences[index].startingYear}
                   />
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={endingYearRefs.current[index]}
                     defaultValue={editedExperiences[index].endingYear}
                   />
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={companyNameRefs.current[index]}
                     defaultValue={editedExperiences[index].companyName}
                   />
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex flex-col sm:flex-row justify-between space-y-3 text-slate-400">
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={jobTypeRefs.current[index]}
                     defaultValue={editedExperiences[index].jobType}
                   />
                   <input
+                    required
                     type="text"
                     className="my-3 border border-slate-200"
                     ref={jobStatusRefs.current[index]}

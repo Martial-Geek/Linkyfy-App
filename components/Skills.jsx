@@ -22,6 +22,13 @@ const Skills = ({ skills }) => {
     //   updatedEditing[index] = false;
     //   return updatedEditing;
     // });
+
+    if (editedSkills.some((skill) => skill.trim() === "")) {
+      // Display an error message or prevent saving if any field is empty.
+      alert("Field can't be empty!");
+      console.error("All skills must have a value.");
+      return;
+    }
     setIsEditing(Array.from({ length: isEditing.length }, () => false));
 
     try {
@@ -80,6 +87,7 @@ const Skills = ({ skills }) => {
             {isEditing[index] ? (
               <div>
                 <input
+                  required
                   className="border border-slate-200"
                   type="text"
                   value={editedSkills[index]}

@@ -18,10 +18,6 @@ const DetailSchema = new Schema({
   password: {
     type: String,
     required: [true, "Phone Number is required"],
-    match: [
-      /^(?=.*\d)(?=.*[A-Z])(?=.*\W)[A-Za-z\d\W]{8,16}$/,
-      "Password invalid, it should contain 8-16 characters, with at least 1 digit, 1 uppercase letter, and 1 special symbol.",
-    ],
   },
   connections: [
     {

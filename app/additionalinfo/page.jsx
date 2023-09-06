@@ -26,8 +26,6 @@ const page = () => {
   const { data: session } = useSession();
   const id = session?.user.id;
 
-  console.log(dataExists);
-
   const doAllExist = () => {
     const areAllFieldsTrue = Object.values(dataExists).every(
       (value) => value === true
@@ -79,7 +77,6 @@ const page = () => {
               experienceExists,
               certificationExists,
             } = await response.json();
-            console.log(educationExists);
             setDataExists((prevState) => ({
               ...prevState,
               about: aboutMeExists,
@@ -128,7 +125,9 @@ const page = () => {
     <div>
       {allExist ? (
         <div className="flex flex-col text-center">
-          <h1 className="head_text">The Form is completed!</h1>
+          <h1 className="head_text blue_gradient text-center">
+            The Form is completed!
+          </h1>
           <Link
             className="px-5 py-1.5 my-5 max-w-fit text-sm bg-primary-orange rounded-full text-white mx-auto"
             href="/profile"
@@ -137,7 +136,7 @@ const page = () => {
           </Link>
         </div>
       ) : (
-        <h1 className="head_text">Welcome!</h1>
+        <h1 className="head_text blue_gradient text-center">Detail Section</h1>
       )}
 
       {/* Buttons */}

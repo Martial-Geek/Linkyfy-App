@@ -49,14 +49,12 @@ const ProfilePic = () => {
 
   return (
     <div className="flex-col justify-center items-center flex md:flex-row md:justify-between md:items-start">
-      <div className="mx-8 my-8 rounded-full">
+      <div className="mx-8 my-8">
         {imageURL ? (
           <img
             src={imageURL}
-            width={150}
-            height={150}
             alt="Uploaded Image"
-            className="rounded-full mt-4"
+            className=" rounded-full mt-4 w-28 h-28"
           />
         ) : (
           <Image
