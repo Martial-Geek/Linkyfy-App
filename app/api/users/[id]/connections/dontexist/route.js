@@ -32,7 +32,9 @@ export const GET = async (request, { params }) => {
             creator: { $in: userId },
           })
             .select("pfp")
-            .exec()) || { pfp: "" };
+            .exec()) || {
+            pfp: "https://firebasestorage.googleapis.com/v0/b/oruphones-90c0b.appspot.com/o/Oruphones%2Fimages%2Fcommon%20pfp%2FuserLogo.png?alt=media&token=c2923741-6738-44cb-951e-614e7b98596f",
+          };
 
           user.pfp = profileData.pfp;
 
