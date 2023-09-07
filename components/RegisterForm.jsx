@@ -38,9 +38,12 @@ function RegisterForm({ onChange, onSubmit }) {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      if (response.ok && response.status === 201) {
         console.log("Register Request Successful");
         router.push("/signin");
+      } else if (response.status === 302) {
+        const data = await response.json();
+        router.push(`/signin?message=${data.message}`);
       } else {
         console.log("Register request unsuccessful");
       }

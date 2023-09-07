@@ -1,11 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 
-function page({ onChange, onSubmit }) {
+function page() {
   const router = useRouter();
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -39,6 +41,9 @@ function page({ onChange, onSubmit }) {
             Sign In Form
           </span>
           <br />
+          <span className="font-inter font-semibold text-slate-600 text-2xl mx-auto">
+            {message}
+          </span>
           <form
             onSubmit={handleSignInSubmit}
             className="mt-10 w-56 flex flex-col gap-7 glassmorphism mx-auto"

@@ -7,7 +7,7 @@ export const GET = async (request, { params }) => {
     const profile = await Profile.findOne({ creator: params.id });
     return new Response(JSON.stringify(profile), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch prompts created by user", {
+    return new Response("Failed to fetch pfps created by user", {
       status: 500,
     });
   }

@@ -4,11 +4,19 @@ import React from "react";
 import Image from "next/image";
 import storage from "../firebaseConfig";
 import { useState, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getStorage,
+  deleteObject,
+  listAll,
+} from "firebase/storage";
 import { useSession } from "next-auth/react";
 
 const ProfilePic = () => {
   const { data: session } = useSession();
+  const email = session?.user.email;
   const [imageURL, setImageURL] = useState(null);
 
   useEffect(() => {
@@ -26,7 +34,19 @@ const ProfilePic = () => {
 
     if (!file) return;
 
-    const imageRef = ref(storage, `Oruphones/images/${file.name}`);
+    const imgParentRef = ref(storage, `Oruphones/images/${email}`);
+    listAll(imgParentRef).then((res) => {
+      const imgRef = res.items[0];
+      deleteObject(imgRef)
+        .then(() => {
+          console.log("File deleted Successfully");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+
+    const imageRef = ref(storage, `Oruphones/images/${email}/${file.name}`);
 
     uploadBytes(imageRef, file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then(async (url) => {
