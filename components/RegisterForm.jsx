@@ -141,9 +141,16 @@ function RegisterForm() {
                   onClick={() => {
                     signIn(provider.id);
                   }}
-                  className="black_btn space-x-4"
+                  className="white_btn space-x-4"
                 >
-                  <img src="/google-logo.svg" alt="lol" />
+                  <img
+                    src={
+                      provider.name === "Google"
+                        ? "/google-logo.svg"
+                        : "/github-logo.svg"
+                    }
+                    alt="lol"
+                  />
                   <div>Sign in with {provider.name}</div>
                 </button>
               ))}

@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import Detail from "@models/details";
 import { connectToDB } from "@utils/database.js";
 import bcrypt from "bcrypt";
@@ -11,6 +12,10 @@ const handler = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       prompt: "select_account",
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -63,7 +68,7 @@ const handler = NextAuth({
 
       return session;
     },
-    async signIn({ profile, user, credentials }) {
+    async signIn({ profile, credentials }) {
       try {
         await connectToDB();
 
