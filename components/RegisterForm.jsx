@@ -2,11 +2,13 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 
-function RegisterForm({ onChange, onSubmit }) {
+function RegisterForm() {
   const router = useRouter();
   const { data: session } = useSession();
+  const [providers, setProviders] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,6 +21,13 @@ function RegisterForm({ onChange, onSubmit }) {
       router.push("/profile");
     }
   }, [session, router]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
+  }, []);
 
   const handleChange = async (e) => {
     setFormData((prevData) => ({
@@ -44,6 +53,9 @@ function RegisterForm({ onChange, onSubmit }) {
       } else if (response.status === 302) {
         const data = await response.json();
         router.push(`/signin?message=${data.message}`);
+      } else if (response.status === 400) {
+        const data = await response.json();
+        alert(data.message);
       } else {
         console.log("Register request unsuccessful");
       }
@@ -53,9 +65,9 @@ function RegisterForm({ onChange, onSubmit }) {
   };
 
   return (
-    <div>
+    <div className="flex">
       {!session && (
-        <form className="mt-10 w-full max-w-3xl flex flex-col gap-7 glassmorphism">
+        <form className="mt-10 w-96 flex flex-col gap-5 glassmorphism">
           <label>
             <span className="font-satoshi font-semibold text-base text-gray-700">
               Name
@@ -69,7 +81,6 @@ function RegisterForm({ onChange, onSubmit }) {
               value={formData.name}
             />
           </label>
-
           <label>
             <span className="font-satoshi font-semibold text-base text-gray-700">
               Phone Number
@@ -83,7 +94,6 @@ function RegisterForm({ onChange, onSubmit }) {
               value={formData.phone}
             />
           </label>
-
           <label>
             <span className="font-satoshi font-semibold text-base text-gray-700">
               Email/Username
@@ -97,7 +107,6 @@ function RegisterForm({ onChange, onSubmit }) {
               value={formData.email}
             />
           </label>
-
           <label>
             <span className="font-satoshi font-semibold text-base text-gray-700">
               Password
@@ -111,23 +120,38 @@ function RegisterForm({ onChange, onSubmit }) {
               value={formData.password}
             />
           </label>
-
           <button
             type="submit"
-            className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
+            className="px-5 py-1.5 w-full mx-auto text-sm bg-primary-orange rounded-full text-white"
             onClick={handleRegister}
           >
             Register
           </button>
-          <p className="space-x-2">
-            <span className="font-satoshi text-sm">Already a user?</span>{" "}
-            <Link
-              href="/signin"
-              className="w-full bg-blue-400 rounded-xl text-white text-sm px-2 py-1"
-            >
-              Sign In
+          <hr />
+          <span className="font-satoshi text-sm text-slate-600 mx-auto my-auto">
+            Already a user?
+          </span>
+          {providers &&
+            Object.values(providers)
+              .filter((provider) => provider.name !== "Credentials")
+              .map((provider) => (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => {
+                    signIn(provider.id);
+                  }}
+                  className="black_btn space-x-4"
+                >
+                  <img src="/google-logo.svg" alt="lol" />
+                  <div>Sign in with {provider.name}</div>
+                </button>
+              ))}
+          <span>
+            <Link href="/signin" className="black_btn">
+              Sign In with Credentials
             </Link>
-          </p>
+          </span>
         </form>
       )}
     </div>

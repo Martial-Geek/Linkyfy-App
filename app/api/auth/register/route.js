@@ -6,7 +6,17 @@ import bcrypt from "bcrypt";
 export const POST = async (request) => {
   await connectToDB();
   const data = await request.json();
-  console.log(data);
+  if (!data.password || !data.name || !data.phone) {
+    return new Response(
+      JSON.stringify({ message: "Password/Name/Phone field is required" }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
   try {
     const isPresent = Detail.findOne({ email: data.email });
     if (isPresent) {

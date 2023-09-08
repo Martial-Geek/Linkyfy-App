@@ -3,7 +3,6 @@ import { Schema, model, models } from "mongoose";
 const DetailSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Name is required."],
   },
   email: {
     type: String,
@@ -12,12 +11,10 @@ const DetailSchema = new Schema({
   },
   phone: {
     type: String,
-    required: [true, "Phone Number is required"],
     match: [/^[6-9]\d{9}$/, "Phone Number should be 10 digits long"],
   },
   password: {
     type: String,
-    required: [true, "Phone Number is required"],
   },
   connections: [
     {

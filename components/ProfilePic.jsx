@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Cropper from "cropperjs";
 import Image from "next/image";
 import storage from "../firebaseConfig";
 import { useState, useEffect } from "react";
@@ -37,13 +38,15 @@ const ProfilePic = () => {
     const imgParentRef = ref(storage, `Oruphones/images/${email}`);
     listAll(imgParentRef).then((res) => {
       const imgRef = res.items[0];
-      deleteObject(imgRef)
-        .then(() => {
-          console.log("File deleted Successfully");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (imgRef) {
+        deleteObject(imgRef)
+          .then(() => {
+            console.log("File deleted Successfully");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     });
 
     const imageRef = ref(storage, `Oruphones/images/${email}/${file.name}`);

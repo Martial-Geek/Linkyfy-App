@@ -15,12 +15,18 @@ const PersonalInfo = () => {
       <p className="text-lg text-slate-600 ml-3 my-3 font-satoshi">
         {session?.user.email}
       </p>
-      <span className="text-xl ml-2 mt-2 font-satoshi font-semibold">
-        Phone Number
-      </span>
-      <p className="text-lg text-slate-600 ml-3 my-3 font-satoshi">
-        {session?.user.phone}
-      </p>
+      {session?.user.phone ? (
+        <>
+          <span className="text-xl ml-2 mt-2 font-satoshi font-semibold">
+            Phone Number
+          </span>
+          <p className="text-lg text-slate-600 ml-3 my-3 font-satoshi">
+            {session?.user.phone}
+          </p>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
